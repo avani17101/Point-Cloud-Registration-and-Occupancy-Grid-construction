@@ -37,40 +37,46 @@ def readPointCloud(filename):
 	return pcl
 
 def convertToWorldFrame(i, points):
-    pointsInWorldFrame = []
+    camToLiDAR = np.array([[0, 0, 1],[-1, 0, 0],[0, -1, 0]])
     for p in points:
-        #()transforms[i - 10].astype('float32')
+    	#()transforms[i - 10].astype('float32')
         #()p.astype('float32')
         #()print(type(transforms[i - 10]))
         #()print(transforms[i - 10].shape)
         #()print(transforms[i - 10])
         #()print(type(p))
         #()print(p.shape)
+		#from right to left, point from lidar is acted upon by the world pose whcih is then multiplied by the transform to get into the lidars frame
         #()print(p)
         #pointsInWorldFrame.append(np.matmul(float(transforms[i - 10]), float(p)))
-        pointsInWorldFrame.append(np.matmul(transforms[i - 10].astype('float32'), p.astype('float32')))
-    pointsInWorldFrame = np.array(pointsInWorldFrame)
-    print(pointsInWorldFrame.shape)
-    return pointsInWorldFrame
+		#()transforms[i - 10] = np.matmul(camToLiDAR, transforms[i - 10])
+		#()exit(0)
+        pointsInWorldFrame.append(np.matmul(camToLiDAR,np.matmul(transforms[i - 10].astype('float32'), p.astype('float32'))))
+    #()pointsInWorldFrame = np.array(pointsInWorldFrame)
+    #()print(pointsInWorldFrame.shape)
+    #()return pointsInWorldFrame
 
 #()
 
-
 if __name__ == "__main__":
-    finalPointCloud = []
-    txtfile = open("01.txt", "r")
-    transforms = readData(txtfile)
-    txtfile.close()
-    for i in range(10,13):
-        loc = "./01/0000" + str(i) + ".bin"
-        output = readPointCloud(loc)
-        finalPointCloud.append(convertToWorldFrame(i, output))
-        #()print(type(output))
+	finalPointCloud=[]
+	pointsInWorldFrame=[]
+	txtfile=open("01.txt","r")
+	transforms = readData(txtfile)
+	txtfile.close()
+	for i in range(10,13):
+		loc = "./01/0000" + str(i) + ".bin"
+		output = readPointCloud(loc)
+        #()finalPointCloud.append(convertToWorldFrame(i, output))
+		convertToWorldFrame(i, output)
+		#()print(type(output))
         #()print(output.shape)
         #()print(output)
         #()for t in transforms:
         #()		print(t)
-    print(type(finalPointCloud))
+	print(type(pointsInWorldFrame))
+	pointsInWorldFrame = np.array(pointsInWorldFrame)
+	print(pointsInWorldFrame.shape)
     # So finalPointCloud is a list with elements as the numpy arrays with points in world frame
     # But these numpy arrays have different shapes so we can not convert the entire thing into a numpy array.
     #()	finalPointCloud = np.array(finalPointCloud)
