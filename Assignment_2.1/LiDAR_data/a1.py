@@ -38,20 +38,21 @@ def readPointCloud(filename):
 
 def convertToWorldFrame(i, points):
     camToLiDAR = np.array([[0, 0, 1],[-1, 0, 0],[0, -1, 0]])
-    for p in points:
+	for num, p in enumerate(points):
     	#()transforms[i - 10].astype('float32')
-        #()p.astype('float32')
-        #()print(type(transforms[i - 10]))
-        #()print(transforms[i - 10].shape)
-        #()print(transforms[i - 10])
-        #()print(type(p))
-        #()print(p.shape)
+    	#()p.astype('float32')
+    	#()print(type(transforms[i - 10]))
+    	#()print(transforms[i - 10].shape)
+    	#()print(transforms[i - 10])
+    	#()print(type(p))
+    	#()print(p.shape)
 		#from right to left, point from lidar is acted upon by the world pose whcih is then multiplied by the transform to get into the lidars frame
-        #()print(p)
-        #pointsInWorldFrame.append(np.matmul(float(transforms[i - 10]), float(p)))
+    	#()print(p)
+    	#pointsInWorldFrame.append(np.matmul(float(transforms[i - 10]), float(p)))
 		#()transforms[i - 10] = np.matmul(camToLiDAR, transforms[i - 10])
 		#()exit(0)
-        pointsInWorldFrame.append(np.matmul(camToLiDAR,np.matmul(transforms[i - 10].astype('float32'), p.astype('float32'))))
+		if num%5 == 0:
+			pointsInWorldFrame.append(np.matmul(camToLiDAR,np.matmul(transforms[i - 10].astype('float32'), p.astype('float32'))))
     #()pointsInWorldFrame = np.array(pointsInWorldFrame)
     #()print(pointsInWorldFrame.shape)
     #()return pointsInWorldFrame
@@ -64,7 +65,7 @@ if __name__ == "__main__":
 	txtfile=open("01.txt","r")
 	transforms = readData(txtfile)
 	txtfile.close()
-	for i in range(10,13):
+	for i in range(10,15):
 		loc = "./01/0000" + str(i) + ".bin"
 		output = readPointCloud(loc)
         #()finalPointCloud.append(convertToWorldFrame(i, output))
@@ -74,9 +75,15 @@ if __name__ == "__main__":
         #()print(output)
         #()for t in transforms:
         #()		print(t)
-	print(type(pointsInWorldFrame))
+	#()	print(type(pointsInWorldFrame))
 	pointsInWorldFrame = np.array(pointsInWorldFrame)
 	print(pointsInWorldFrame.shape)
+	#()	print(pointsInWorldFrame[0])
+	pcd = o3d.geometry.PointCloud()
+	pcd.points = o3d.utility.Vector3dVector(pointsInWorldFrame)
+	o3d.visualization.draw_geometries([pcd])
+	o3d.io.write_point_cloud("./pcd.ply",pcd)
+
     # So finalPointCloud is a list with elements as the numpy arrays with points in world frame
     # But these numpy arrays have different shapes so we can not convert the entire thing into a numpy array.
     #()	finalPointCloud = np.array(finalPointCloud)
