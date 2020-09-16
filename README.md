@@ -11,7 +11,7 @@ YOUR-NAME: Avani Gupta, Sreeharsha Paruchuri  <br>
 * numpy
 
 ## Work done by each team-member
-Both of us discussed and figured a strategy/solution on questions.
+Both of us discussed and figured a strategy/solution on questions.  <br>
 Avani: Coded point cloud registration <br>
 Sreeharsha: Coded occupancy map construction <br>
 
@@ -28,7 +28,7 @@ Converted the above obtained points to point clouds using opencv function
 Kept on adding all point clouds thus obtained from to form a final point cloud.
 
 
-![README/pc2.png](REPORT/pc2.png)
+![README/pc2.png](REPORT/t1.png)
 
 
 ## Task 2 -  Occupancy Map Construction
@@ -36,6 +36,6 @@ Kept on adding all point clouds thus obtained from to form a final point cloud.
 ### Methodology:
 
 
-![README/figure38.png](REPORT/figure38.png)
+![README/figure38.png](REPORT/t2.png)
 
 
