@@ -18,13 +18,13 @@ Sreeharsha: Coded occupancy map construction <br>
 ## Task 1 - Point Cloud Registration
 
 ### Methodology:
-* Convertion of points from lidar to camera frame.
+* **Convertion of points from lidar to camera frame** <br>
 First converted the points read from bins to camera frame by rotation matrix obtained by figuring out euler angles.
-* Transform points according to poses given.
+* **Transform points according to poses given** <br>
 After converting to camera frame, transformed the points according to poses read from 01.txt.
-* Register point cloud
+* **Register point cloud** <br>
 Converted the above obtained points to point clouds using opencv function
-* Append to global point cloud
+* **Append to global point cloud** <br>
 Kept on adding all point clouds thus obtained from to form a final point cloud.
 
 
@@ -33,7 +33,7 @@ Kept on adding all point clouds thus obtained from to form a final point cloud.
 
 ## Task 2 -  Occupancy Map Construction
 
-* Methodology:
+### Methodology:
 
 
 ![README/figure38.png](REPORT/figure38.png)
